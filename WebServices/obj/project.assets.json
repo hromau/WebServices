@@ -13206,11 +13206,11 @@
       "hideWarningsAndErrors": true
     },
     "restore": {
-      "projectUniqueName": "D:\\WebServices\\WebServices\\WebServices.csproj",
+      "projectUniqueName": "D:\\College\\C#\\WebServices\\WebServices\\WebServices.csproj",
       "projectName": "WebServices",
-      "projectPath": "D:\\WebServices\\WebServices\\WebServices.csproj",
+      "projectPath": "D:\\College\\C#\\WebServices\\WebServices\\WebServices.csproj",
       "packagesPath": "C:\\Users\\Lightning\\.nuget\\packages\\",
-      "outputPath": "D:\\WebServices\\WebServices\\obj\\",
+      "outputPath": "D:\\College\\C#\\WebServices\\WebServices\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
