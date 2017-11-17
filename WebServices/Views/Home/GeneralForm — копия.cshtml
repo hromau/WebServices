@@ -1,0 +1,98 @@
+﻿@model ModelActiveUser;
+@{
+    ViewData["Title"] = "Login Form";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="~/css/cabinet.css">
+    <script src="~/js/vue.js"></script>
+    <script src="~/js/cabinet.js" defer></script>
+    <script id="template-reference" type="text/x-template">
+        <form class="reference temp1" @@submit.prevent="$emit('submit')"><textarea v-text="reason" rows="3" placeholder="Причина"></textarea><div class="sel-box"><label for="#type-select">Тип справки:</label><select id="type-select" required v-model="type"><option v-for="v in typeList" v-text="v" name="type-option" :value="v"></option></select></div><hr style-type="1"><div class="capcha"><img :src="capcha.img"><input class="capcha-text" required v-text="capcha.text" placeholder="Текст с картинки"><input class="submit" type="button" value="Отправить"></div></form>
+    </script>
+    <script id="template-request" type="text/x-template">
+        <form class="request temp1" @@submit.prevent="$emit('submit')"><textarea v-text="reason" rows="3" placeholder="Причина"></textarea><hr style-type="1"><div class="capcha"><img :src="capcha.img"><input class="capcha-text" required v-text="capcha.text" placeholder="Текст с картинки"><input class="submit" type="button" value="Отправить"></div></form>
+    </script>
+</head>
+<body>
+    <div id="container">
+        <div class="header"></div>
+        <div class="content">
+            <div class="cabinet-box">
+                <div class="left">
+                    <!-- тут ваша работа-->
+                    <div class="user-info-left">
+                        <div class="user-name">Ахунджанов Александр</div>
+                        <div class="group">3А ПО БШ</div>
+                        <div class="number-book" title="Номер зачетной книжки">1234</div>
+                        <div class="current-lesson l-item-box">
+                            <!-- текущий урок-->
+                            <div class="l-title">Текущий урок</div>
+                            <div class="l-item">
+                                <div class="l-key">Предмет</div>
+                                <div class="l-value">ТРПО</div>
+                            </div>
+                            <div class="l-item">
+                                <div class="l-key">Время</div>
+                                <div class="l-value">8:00 - 8:45</div>
+                            </div>
+                            <div class="l-item">
+                                <div class="l-key">Аудитория</div>
+                                <div class="l-value">411</div>
+                            </div>
+                            <div class="l-item">
+                                <div class="l-key">Преподаватель</div>
+                                <div class="l-value">Артем Викторович</div>
+                            </div>
+                        </div>
+                        <div class="next-lesson l-item-box">
+                            <!-- следующий-->
+                            <div class="l-title">Следующий урок</div>
+                            <div class="l-item">
+                                <div class="l-key">Предмет</div>
+                                <div class="l-value">ТРПО</div>
+                            </div>
+                            <div class="l-item">
+                                <div class="l-key">Время</div>
+                                <div class="l-value">8:55 - 9:40</div>
+                            </div>
+                            <div class="l-item">
+                                <div class="l-key">Аудитория</div>
+                                <div class="l-value">411</div>
+                            </div>
+                            <div class="l-item">
+                                <div class="l-key">Преподаватель</div>
+                                <div class="l-value">Артем Викторович</div>
+                            </div>
+                        </div>
+                        <div class="calendar-event l-item-box">
+                            <!-- тут можно показывать не только сегодняшний-->
+                            <!-- праздник, но и просто ближайший-->
+                            <div class="l-title">Ближайшее событие</div>
+                            <div class="l-item">
+                                <div class="l-key">Дата</div>
+                                <div class="l-value">1 января</div>
+                            </div>
+                            <div class="l-item">
+                                <div class="l-key">Событие</div>
+                                <div class="l-value">Новый год</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="right">
+                    <div class="top fp fwr">
+                        <div class="btn t1 fc" v-for="k, v in buttons" v-text="k" :active="v === content" @@click="content = v"></div>
+                    </div>
+                    <div class="bottom">
+                        <component :is="content"></component>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer"></div>
+    </div>
+</body>
+</html>
