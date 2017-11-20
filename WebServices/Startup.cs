@@ -44,7 +44,7 @@ namespace WebServices
             //services.AddDbContext<WebservicesContext>(options => options.UseSqlServer(connection));
             //services.AddScoped<WebservicesContext>();
             services.AddMvc();
-            var optionsBuilder = new DbContextOptionsBuilder<ModelContext>();
+            var optionsBuilder = new DbContextOptionsBuilder<WebservicesContext>();
             optionsBuilder.UseSqlServer(connection);
             item = new WebservicesContext();
 

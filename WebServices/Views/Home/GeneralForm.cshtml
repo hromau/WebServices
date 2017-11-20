@@ -1,4 +1,4 @@
-@model ModelActiveUser;
+﻿@model ModelActiveUser;
 @{
     ViewData["Title"] = "Login Form";
 }
@@ -114,7 +114,9 @@
           <div class="left">
             <!-- тут ваша работа-->
             <div class="user-info-left">
-              <div class="user-name">Ахунджанов Александр</div>
+              <div class="user-name">
+                  <input type="text" asp-for="FirstName" />
+              </div>
               <div class="group">3А ПО БШ</div>
               <div class="number-book" title="Номер зачетной книжки">1234</div>
               <div class="current-lesson l-item-box">

@@ -65,6 +65,7 @@ namespace WebServices
                 entity.Property(e => e.Room)
                     .IsRequired()
                     .HasMaxLength(50);
+                
             });
 
             modelBuilder.Entity<UserTable>(entity =>

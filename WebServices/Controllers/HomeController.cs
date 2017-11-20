@@ -26,16 +26,14 @@ namespace WebServices.Controllers
 
         static bool findCookie(string token)//TOKEN
         {
-            //if (Startup.item.UserTable.Select(it => it.Token.Equals(token)))
-            //    return true;
-            //else
+            if (Startup.item.UserTable.Any(it => it.Token.Equals(token)))
+                return true;
+            else
                 return false;
         }
 
-        static void addToken(Microsoft.AspNetCore.Http.HttpResponse res)
+        static string addToken(Microsoft.AspNetCore.Http.HttpResponse res)
         {
-            
-
             using (RandomNumberGenerator rng = new RNGCryptoServiceProvider())
             {
                 byte[] tokenData = new byte[32]; //100% безопасно
@@ -46,6 +44,7 @@ namespace WebServices.Controllers
             res.Cookies.Append("_token", token + ";Max-Age=15552000;HttpOnly;");
 
             // add to bd token
+            return token;
         }
 
         public void CheckLogin(string accountNumber, string password)
@@ -56,7 +55,7 @@ namespace WebServices.Controllers
 
             //    addToken(Response);
             //    Response.Redirect("/Home/GeneralForm/");
-                
+
             //}
             //else
             //{
@@ -64,22 +63,21 @@ namespace WebServices.Controllers
             //}
             //activeUser = Startup.AppKernel.Get<ModelActiveUser>(accountNumber);
 
-            //if (Startup.item.UserTable.Any(it => it.AccountNumber.Equals(accountNumber) && it.Password.Equals(password)))
-            //{
-            //    //выделение активного юзера
-            //    //activeUser = Startup.item.UserTable.First(it => it.AccountNumber.Equals(accountNumber));
+            if (Startup.item.UserTable.Any(it => it.AccountNumber.Equals(accountNumber) && it.Password.Equals(password)))
+            {
+                //выделение активного юзера
+                //activeUser = Startup.item.UserTable.First(it => it.AccountNumber.Equals(accountNumber));
 
-            //    activeUser = Startup.AppKernel.Get<ModelActiveUser>(accountNumber);
-            //    //создание модели активного юзера
-            //    //ModelActiveUser modelActiveUser = new ModelActiveUser(activeUser);
-            //    //modelActiveUser.SetModel(modelActiveUser);
+                activeUser = Startup.AppKernel.Get<ModelActiveUser>(accountNumber);
+                //создание модели активного юзера
 
-            //    //return View("Your account is valid!\nHello "+activeUser.FirstName);
-            //    Response.Redirect("/Home/GeneralForm");
-            //}
-            //else
-                //возвращение об ошибке
+                //return View("Your account is valid!\nHello "+activeUser.FirstName);
                 Response.Redirect("/Home/GeneralForm");
+                
+            }
+            else
+                //возвращение об ошибке
+                Response.Redirect("/Home/Error");
             //return View("Your account is not valid!");
 
 
@@ -120,7 +118,7 @@ namespace WebServices.Controllers
         //отображение страницы
         public IActionResult RegistrationForm()
         {
-            addToken(Response);
+            //addToken(Response);
             return View();
         }
 
@@ -173,7 +171,7 @@ namespace WebServices.Controllers
                     ut.FirstName = firstName;
                     ut.LastName = lastName;
                     ut.Password = password;
-                    ut.Token = token;
+                    ut.Token = addToken(Response);
                     ut.GroupName = groupName;
                 }
                 catch (DbUpdateException ex)
@@ -196,7 +194,7 @@ namespace WebServices.Controllers
         public string getLesson(string week,string groupName)
         {
             //ЧТЕНИЕ ИЗ БД РАСПИАНИЯ 
-            //ArrayOfLectures.listLectures = Startup.item.Timetables.Where
+            //ArrayOfLectures.listLectures = Startup.item.TimeTables.Where(t => t.Week.Equals(week) && t.GroupName.Equals(groupName));
             return null;
         }
 
