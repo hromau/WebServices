@@ -19,6 +19,11 @@ namespace WebServices.Controllers
     {
         public static ModelActiveUser activeUser;
         static string token;
+
+        static Regex pass_regex = new Regex(@"^\w+$");
+        static Regex account_regex = new Regex(@"^\d{4}$");
+        static Regex name_regex = new Regex(@"^[А-Я][а-я]+$");
+
         public IActionResult LoginForm()
         {
             return View();
@@ -83,24 +88,19 @@ namespace WebServices.Controllers
 
         }
 
-        public IActionResult About()
-        {
-            ViewData["Message"] = "Your application description page.";
-
-            return View();
-        }
+       
 
         public IActionResult GeneralForm()
         {
-            //if (Request.Cookies.Select(o => o.Key == "_token" && findCookie(o.Value)).ToArray().Length == 1)
-            //{
-            //    return View();
-            //}
-            //else
-            //{
-            //    return Error();
-            //}
-            return View();
+            if (Request.Cookies.Select(o => o.Key == "_token" && findCookie(o.Value)).ToArray().Length == 1)
+            {
+                return View();
+            }
+            else
+            {
+                return Error();
+            }
+            //return View();
         }
 
         public IActionResult Contact()
@@ -121,28 +121,6 @@ namespace WebServices.Controllers
             //addToken(Response);
             return View();
         }
-
-
-        public string calendarEvents(string year, string month)
-        {
-            //получение из бд события 
-            //ArrayOfEvents.Evs = Startup.item.Events.Where(it => it.Month.Equals(month) && it.Year.Equals(year)).ToList();
-            
-            //Внимание! Велосипед
-            //foreach (var item in Startup.item.Event)
-            //{
-            //    if (item.Month.Equals(month) && item.Year.Equals(year))
-            //    {
-            //        ArrayOfEvents.Evs.Add(item);
-            //    }
-            //}
-            
-            return JsonConvert.SerializeObject(ArrayOfEvents.Evs);
-        }
-
-        static Regex pass_regex = new Regex(@"^\w+$");
-        static Regex account_regex = new Regex(@"^\d{4}$");
-        static Regex name_regex = new Regex(@"^[А-Я][а-я]+$");
 
         //метод для создания новоого юзера.то есть должно быть добавелние в бд
         public string NewUser(string lastName, string firstName, DateTime dob, string password, string accountNumber, string groupName, string email)
@@ -176,6 +154,7 @@ namespace WebServices.Controllers
                 }
                 catch (DbUpdateException ex)
                 {
+                    Console.WriteLine(ex.StackTrace);
                     return "{\"ok\":false}";
                 }
                 //вот тут мне не нравится проверочка. тип если в бд уже такой есть, то не писать снова. 
@@ -188,14 +167,33 @@ namespace WebServices.Controllers
                 }
                 return "{\"ok\":true}";
             }
-             
+            
+
         }
 
-        public string getLesson(string week,string groupName)
+        public string GetCalendarEvents(string year, string month)
+        {
+            //получение из бд события 
+            ArrayOfEvents.Evs = Startup.item.Events.Where(it => it.Month.Equals(month) && it.Year.Equals(year)).ToList();
+
+            //Внимание! Велосипед
+            //foreach (var item in Startup.item.Event)
+            //{
+            //    if (item.Month.Equals(month) && item.Year.Equals(year))
+            //    {
+            //        ArrayOfEvents.Evs.Add(item);
+            //    }
+            //}
+
+            return JsonConvert.SerializeObject(ArrayOfEvents.Evs);
+        }
+
+        public string GetLesson(string week,string groupName)
         {
             //ЧТЕНИЕ ИЗ БД РАСПИАНИЯ 
-            //ArrayOfLectures.listLectures = Startup.item.TimeTables.Where(t => t.Week.Equals(week) && t.GroupName.Equals(groupName));
-            return null;
+            ArrayOfLectures.listLectures = Startup.item.TimeTables.Where(t => t.Week.Equals(week) && t.Group.Equals(groupName)).ToList();
+
+            return JsonConvert.SerializeObject(ArrayOfLectures.listLectures);
         }
 
     }

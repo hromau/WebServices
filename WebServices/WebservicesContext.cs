@@ -11,12 +11,16 @@ namespace WebServices
         public virtual DbSet<TimeTables> TimeTables { get; set; }
         public virtual DbSet<UserTable> UserTable { get; set; }
 
+        public WebservicesContext():base()
+        {
+            AppDomain.CurrentDomain.SetData("DataDirectory", System.IO.Directory.GetCurrentDirectory());
+        }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-
-                optionsBuilder.UseSqlServer(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=D:\WebServices\WebServices\WebServices.mdf;Integrated Security=True;Connect Timeout=30");
+                optionsBuilder.UseSqlServer(@"Data Source=(LocalDB)\MSSQLLocalDB;Database=WebServices.mdf;Integrated Security=True;Connect Timeout=30");
             }
         }
 
@@ -65,7 +69,7 @@ namespace WebServices
                 entity.Property(e => e.Room)
                     .IsRequired()
                     .HasMaxLength(50);
-                
+
             });
 
             modelBuilder.Entity<UserTable>(entity =>

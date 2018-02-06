@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <Compile Remove="Model.cs" />
+    <Compile Remove="Models\EventsOld.cs" />
     <Compile Remove="Models\TableOfStatements.cs" />
     <Compile Remove="Models\TimeTables.cs" />
     <Compile Remove="Models\UserTable.cs" />

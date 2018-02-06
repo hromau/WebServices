@@ -10,5 +10,6 @@ namespace WebServices
         public string LessonTeacher { get; set; }
         public string Room { get; set; }
         public int Week { get; set; }
+        public string Group { get; set; }
     }
 }
